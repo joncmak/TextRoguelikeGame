@@ -1,22 +1,32 @@
 package com.github.joncmak.mapGenerator;
 
-public class BossRoom
+import java.awt.Point;
+import java.util.List;
+
+import com.github.joncmak.dictionaries.TextColourDictionary;
+
+public class BossRoom extends AbstractBasicRoom
 {
-	private int[] mRoom;
+	private int[][] mRoom;
 	
 	private final int mExit;
 	private final int mBossLocation;
 	
 	public BossRoom()
 	{
-		mRoom = new int[4];
+		mRoom = new int[4][0];
 		mExit = 3;
 		mBossLocation = 2;
 		
 		generateBossRoom();
 	}
 	
-	public void display(int pPlayerX, int pPlayerY)
+	public int[][] getRoom()
+	{
+		return mRoom;
+	}
+	
+	public void display(int pPlayerX, int pPlayerY, List<Point> pPlayerPath)
 	{
 		for(int x = 0; x < 4; x++)
 		{
@@ -64,15 +74,15 @@ public class BossRoom
 		{
 			if(i == mExit)
 			{
-				mRoom[i] = 1;
+				mRoom[i][0] = 1;
 			}
 			else if(i == mBossLocation)
 			{
-				mRoom[i] = 2;
+				mRoom[i][0] = 2;
 			}
 			else
 			{
-				mRoom[i] = 0;
+				mRoom[i][0] = 0;
 			}
 		}
 	}

@@ -7,7 +7,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-public class MazeGenerator
+import com.github.joncmak.dictionaries.TextColourDictionary;
+
+public class MazeGenerator extends AbstractBasicRoom
 {
 	private enum DIRECTIONS
 	{
@@ -48,7 +50,12 @@ public class MazeGenerator
 		mExit = addExitPortal();
 	}
 	
-	public void displayMaze(int pPlayerX, int pPlayerY, List<Point> pPlayerPath)
+	public int[][] getRoom()
+	{
+		return mMaze;
+	}
+	
+	public void display(int pPlayerX, int pPlayerY, List<Point> pPlayerPath)
 	{
 		for(int y = 0; y < mMazeHeight; y++)
 		{
