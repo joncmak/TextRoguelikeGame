@@ -9,93 +9,65 @@ import java.util.Random;
 
 import com.github.joncmak.dictionaries.TextColourDictionary;
 
-public class MazeGenerator extends AbstractBasicRoom
-{
-	private enum DIRECTIONS
+public class MazeRoom extends AbstractBasicRoom
+{	
+	public MazeRoom(int pMazeWidth, int pMazeHeight)
 	{
-		North(1, 0, -1), South(2, 0, 1), East(4, 1, 0), West(8, -1, 0);
-		private final int bit;
-		private final int dx;
-		private final int dy;
-		private DIRECTIONS opposite;
-		
-		static
-		{
-			North.opposite = South;
-			South.opposite = North;
-			East.opposite = West;
-			West.opposite = East;
-		}
-		
-		private DIRECTIONS(int pBit, int pDX, int pDY)
-		{
-			bit = pBit;
-			dx = pDX;
-			dy = pDY;
-		}
-	};
-	
-	private final int mMazeWidth;
-	private final int mMazeHeight;
-	private final int[][] mMaze;
-	
-	private final Point mExit;
-	
-	public MazeGenerator(int pMazeWidth, int pMazeHeight)
-	{
-		mMazeWidth = pMazeWidth;
-		mMazeHeight = pMazeHeight;
-		mMaze = new int[mMazeWidth][mMazeHeight];
+		mRoomWidth = pMazeWidth;
+		mRoomHeight = pMazeHeight;
+		mRoom = new int[mRoomWidth][mRoomHeight];
 		generateMaze(0, 0);
 		mExit = addExitPortal();
 	}
 	
+	@Override
 	public int[][] getRoom()
 	{
-		return mMaze;
+		return mRoom;
 	}
 	
+	@Override
 	public void display(int pPlayerX, int pPlayerY, List<Point> pPlayerPath)
 	{
-		for(int y = 0; y < mMazeHeight; y++)
+		for(int y = 0; y < mRoomHeight; y++)
 		{
-			for(int x = 0; x < mMazeWidth; x++)
+			for(int x = 0; x < mRoomWidth; x++)
 			{
 				if(pPlayerPath.contains(new Point(x, y)))
-					System.out.print((mMaze[x][y] & 1) == 0 ? "+---+" : "+   +");
+					System.out.print((mRoom[x][y] & 1) == 0 ? "+---+" : "+   +");
 				else
 					System.out.print("     ");
 			}
 			System.out.println();
 			
-			for(int x = 0; x < mMazeWidth; x++)
+			for(int x = 0; x < mRoomWidth; x++)
 			{
 				if(pPlayerPath.contains(new Point(x, y)))
 				{
-					System.out.print((mMaze[x][y] & 8) == 0 ? "| " : "  ");
+					System.out.print((mRoom[x][y] & 8) == 0 ? "| " : "  ");
 					if(x == pPlayerX && y == pPlayerY)
 						System.out.print(TextColourDictionary.ANSI_GREEN + "P" + TextColourDictionary.ANSI_RESET);
 					else if(x == mExit.x &&y == mExit.y)
 						System.out.print(TextColourDictionary.ANSI_YELLOW + "@" + TextColourDictionary.ANSI_RESET);
 					else
 						System.out.print(" ");
-					System.out.print((mMaze[x][y] & 4) == 0 ? " |" : "  ");
+					System.out.print((mRoom[x][y] & 4) == 0 ? " |" : "  ");
 				}
 				else
 					System.out.print("     ");
 			}
 			System.out.println();
 			
-			for(int x = 0; x < mMazeWidth; x++)
+			for(int x = 0; x < mRoomWidth; x++)
 			{
 				if(pPlayerPath.contains(new Point(x, y)))
-					System.out.print((mMaze[x][y] & 2) == 0 ? "+---+" : "+   +");
+					System.out.print((mRoom[x][y] & 2) == 0 ? "+---+" : "+   +");
 				else
 					System.out.print("     ");
 			}
 			System.out.println();
 		}
-	}
+	}	
 	
 	public boolean playerIsAtExit(int pPlayerX, int pPlayerY)
 	{
@@ -110,10 +82,10 @@ public class MazeGenerator extends AbstractBasicRoom
 		{
 			int nx = cx + dir.dx;
 			int ny = cy + dir.dy;
-			if(between(nx, mMazeWidth) && between(ny, mMazeHeight) && mMaze[nx][ny] == 0)
+			if(between(nx, mRoomWidth) && between(ny, mRoomHeight) && mRoom[nx][ny] == 0)
 			{
-				mMaze[cx][cy] |= dir.bit;
-				mMaze[nx][ny] |= dir.opposite.bit;
+				mRoom[cx][cy] |= dir.bit;
+				mRoom[nx][ny] |= dir.opposite.bit;
 				generateMaze(nx, ny);
 			}
 		}
@@ -127,18 +99,18 @@ public class MazeGenerator extends AbstractBasicRoom
 		switch(randNum)
 		{
 			case 1:
-				return new Point(0, mMazeHeight-1);
+				return new Point(0, mRoomHeight-1);
 			case 2:
-				return new Point(mMazeWidth-1, 0);
+				return new Point(mRoomWidth-1, 0);
 			case 3:
-				return new Point(mMazeWidth-1, mMazeHeight-1);
+				return new Point(mRoomWidth-1, mRoomHeight-1);
 			default:
-				return new Point(mMazeWidth-1, mMazeHeight-1);
+				return new Point(mRoomWidth-1, mRoomHeight-1);
 		}
 	}
 	
 	private static boolean between(int pValue, int pUpper)
 	{
 		return (pValue >= 0) && (pValue < pUpper);
-	}	
+	}
 }

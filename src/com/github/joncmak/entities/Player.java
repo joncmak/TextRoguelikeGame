@@ -14,7 +14,6 @@ public class Player
 	{
 		mPlayerPath = new ArrayList<Point>();
 		mHP = 10;
-		
 		Point initLocation = new Point(0, 0);
 		mPlayerPath.add(initLocation);
 		mLocation = initLocation;
@@ -28,7 +27,8 @@ public class Player
 	public void updateLocation(int x, int y)
 	{
 		Point newLocation = new Point(mLocation.x + x, mLocation.y + y);
-		mPlayerPath.add(newLocation);
+		if(!mPlayerPath.contains(newLocation))
+			mPlayerPath.add(newLocation);
 		mLocation = newLocation;
 	}
 	

@@ -4,6 +4,7 @@ import java.awt.Point;
 
 import com.github.joncmak.dictionaries.CommandValidator;
 import com.github.joncmak.entities.Player;
+import com.github.joncmak.mapGenerator.FloorHandler;
 
 public class CommandHandler
 {
@@ -33,14 +34,22 @@ public class CommandHandler
 		return isValid;	
 	}
 	
-	public void executeCommand(String[] pCommands, Player pPlayer)
+	public void executeCommand(String[] pCommands, Player pPlayer, FloorHandler pFloorHandler)
 	{
 		String action = pCommands[0];
 		if(action.equalsIgnoreCase("move"))
 		{
 			//TODO check for wall
 			Point directionPoint = convertDirectionStringToInt(pCommands[1]);
-			pPlayer.updateLocation(directionPoint.x, directionPoint.y);
+			
+			if(!pFloorHandler.getRoom().isBlocked(directionPoint, pPlayer))
+			{
+				pPlayer.updateLocation(directionPoint.x, directionPoint.y);
+			}
+			else
+			{
+				System.out.println("Unable to move. Wall blocking path.");
+			}
 		}
 		else if(action.equalsIgnoreCase("use"))
 		{
@@ -77,13 +86,13 @@ public class CommandHandler
 		switch(direction)
 		{
 			case 0:
-				return new Point(0, -1);
+				return new Point(0, -1); //move up
 			case 1:
-				return new Point(1, 0);
+				return new Point(1, 0); //move right
 			case 2:
-				return new Point(0, 1);
+				return new Point(0, 1); //move down
 			case 3:
-				return new Point(-1, 0);
+				return new Point(-1, 0); //move left
 		}
 		return new Point(0, 0);
 	}

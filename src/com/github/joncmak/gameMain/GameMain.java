@@ -38,7 +38,7 @@ public class GameMain
 				}
 				else
 				{
-					sCmdHandler.executeCommand(commandArray, sPlayer);
+					sCmdHandler.executeCommand(commandArray, sPlayer, sFloorHandler);
 					Point currentLocation = sPlayer.getLocation();
 					sFloorHandler.display(currentLocation.x, currentLocation.y, sPlayer.getPlayerPath());
 				}

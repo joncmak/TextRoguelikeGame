@@ -6,11 +6,16 @@ import java.util.List;
 public class FloorHandler
 {
 	private int mFloorNumber;
-	AbstractBasicRoom mCurrentFloor;
+	private AbstractBasicRoom mCurrentFloor;
 	
 	public FloorHandler()
 	{
-		mFloorNumber = 0;
+		mFloorNumber = 10;
+	}
+	
+	public AbstractBasicRoom getRoom()
+	{
+		return mCurrentFloor;
 	}
 	
 	public int[][] getNextFloor()
@@ -21,7 +26,7 @@ public class FloorHandler
 		}
 		else
 		{
-			mCurrentFloor = new MazeGenerator(8, 8);
+			mCurrentFloor = new MazeRoom(8, 8);
 		}
 		return mCurrentFloor.getRoom();
 	}
