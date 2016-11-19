@@ -18,7 +18,7 @@ public class GameMain
 		sPlayer = new Player();
 		sFloorHandler = new FloorHandler();
 		sFloorHandler.getNextFloor();
-		sFloorHandler.display(0, 0, sPlayer.getPlayerPath());
+		sFloorHandler.display(new Point(0, 0));
 	}
 	
 	private static boolean gameLoop(Scanner pUserInput)
@@ -40,7 +40,7 @@ public class GameMain
 				{
 					sCmdHandler.executeCommand(commandArray, sPlayer, sFloorHandler);
 					Point currentLocation = sPlayer.getLocation();
-					sFloorHandler.display(currentLocation.x, currentLocation.y, sPlayer.getPlayerPath());
+					sFloorHandler.display(currentLocation);
 				}
 			}
 			else

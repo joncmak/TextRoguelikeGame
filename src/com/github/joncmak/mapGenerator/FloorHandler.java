@@ -1,7 +1,6 @@
 package com.github.joncmak.mapGenerator;
 
 import java.awt.Point;
-import java.util.List;
 
 public class FloorHandler
 {
@@ -10,7 +9,7 @@ public class FloorHandler
 	
 	public FloorHandler()
 	{
-		mFloorNumber = 10;
+		mFloorNumber = 1;
 	}
 	
 	public AbstractBasicRoom getRoom()
@@ -36,8 +35,9 @@ public class FloorHandler
 		mFloorNumber++;
 	}
 	
-	public void display(int x, int y, List<Point> pPlayerPath)
+	public void display(Point pPoint)
 	{
-		mCurrentFloor.display(x, y, pPlayerPath);
+		//mCurrentFloor.displayAll(pPoint);
+		mCurrentFloor.display(pPoint);
 	}
 }

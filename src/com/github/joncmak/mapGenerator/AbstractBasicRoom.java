@@ -1,7 +1,6 @@
 package com.github.joncmak.mapGenerator;
 
 import java.awt.Point;
-import java.util.List;
 
 import com.github.joncmak.entities.Player;
 
@@ -13,13 +12,41 @@ public abstract class AbstractBasicRoom
 	protected Point mExit;
 	
 	public abstract int[][] getRoom();
-	public abstract void display(int x, int y, List<Point> pPlayerPath);
+	public abstract void display(Point pPlayerPoint);
+	public abstract boolean playerIsAtExit(Point pPlayerPoint);
+	
 	public boolean isBlocked(Point pDirection, Player pPlayer)
 	{	
 		Point playerPoint = pPlayer.getLocation();
 		Point nextPoint = new Point(playerPoint.x + pDirection.x, playerPoint.y + pDirection.y);
 		
 		return isBlocked(playerPoint, nextPoint);
+	}
+	
+	public void displayAll(Point pPlayerPoint)
+	{
+		for(int y = 0; y < mRoomHeight; y++)
+		{
+			for(int x = 0; x < mRoomWidth; x++)
+			{
+				System.out.print((mRoom[x][y] & 1) == 0 ? "+---+" : "+   +");
+			}
+			System.out.println();
+			
+			for(int x = 0; x < mRoomWidth; x++)
+			{
+				System.out.print((mRoom[x][y] & 8) == 0 ? "| " : "  ");
+				System.out.print(" ");
+				System.out.print((mRoom[x][y] & 4) == 0 ? " |" : "  ");
+			}
+			System.out.println();
+			
+			for(int x = 0; x < mRoomWidth; x++)
+			{
+				System.out.print((mRoom[x][y] & 2) == 0 ? "+---+" : "+   +");			
+			}
+			System.out.println();
+		}
 	}
 	
 	public boolean isBlocked(Point pOrigin, Point pNextPoint)
